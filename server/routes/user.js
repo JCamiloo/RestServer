@@ -17,7 +17,7 @@ app.post('/user', (req, res) => {
 
   user.save((error, userDB) => {
     if (error) {
-      return res.status(400).json({ success: false, message: error});
+      return res.status(400).json({ success: false, message: error.message });
     } else {
       res.json({ success: true, message: userDB});
     }
