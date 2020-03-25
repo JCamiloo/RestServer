@@ -19,15 +19,21 @@ app.post('/user', (req, res) => {
   user.save((error, userDB) => {
     if (error) {
       return res.status(400).json({ success: false, message: error.message });
-    } else {
-      res.json({ success: true, message: userDB});
-    }
+    } 
+    res.json({ success: true, message: userDB});
   });
 });
 
 app.put('/user/:id', (req, res) => {
   const id = req.params.id;
-  res.json({ id });
+  const body = req.body;
+
+  User.findByIdAndUpdate(id, body, { new: true }, (error, userDB) => {
+    if (error) {
+      return res.status(400).json({ success: false, message: error.message });
+    }
+    res.json({ success: true, message: userDB});
+  });
 });
 
 app.delete('/user', (req, res) => {
