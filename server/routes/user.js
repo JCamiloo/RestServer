@@ -12,7 +12,14 @@ app.get('/user', (req, res) => {
     if (error) {
       return res.status(400).json({ success: false, message: error.message });
     }
-    res.json({ success: true, data: users });
+
+    User.count({}, (err, total) => {
+      if (err) {
+        return res.status(400).json({ success: false, message: err.message });
+      }
+
+      res.json({ success: true, data: { total, users } });
+    });
   });
 });
 
