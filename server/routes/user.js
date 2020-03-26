@@ -5,7 +5,15 @@ const User = require('../models/user.model');
 const app = express();
 
 app.get('/user', (req, res) => {
-  res.json('get user');
+  const from = Number(req.query.from || 0);
+  const limit = Number(req.query.limit || 5);
+
+  User.find({}).skip(from).limit(limit).exec((error, users) => {
+    if (error) {
+      return res.status(400).json({ success: false, message: error.message });
+    }
+    res.json({ success: true, data: users });
+  });
 });
 
 app.post('/user', (req, res) => {
@@ -21,7 +29,7 @@ app.post('/user', (req, res) => {
     if (error) {
       return res.status(400).json({ success: false, message: error.message });
     } 
-    res.json({ success: true, message: userDB});
+    res.json({ success: true, message: 'User created', data: userDB });
   });
 });
 
@@ -34,7 +42,7 @@ app.put('/user/:id', (req, res) => {
     if (error) {
       return res.status(400).json({ success: false, message: error.message });
     }
-    res.json({ success: true, message: userDB});
+    res.json({ success: true, message: 'User updated', data: userDB });
   });
 });
 
