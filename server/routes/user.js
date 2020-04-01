@@ -28,9 +28,9 @@ app.post('/user', (req, res) => {
     role: body.role
   });
 
-  user.save((error, userDB) => {
+  user.save((error, dbUser) => {
     if (error) return res.status(400).json({ success: false, message: error.message });
-    res.json({ success: true, message: 'User created', data: userDB });
+    res.json({ success: true, message: 'User created', data: dbUser });
   });
 });
 
@@ -38,10 +38,10 @@ app.put('/user/:id', (req, res) => {
   const id = req.params.id;
   const body = _.pick(req.body, ['name', 'email', 'image', 'role', 'state']);
 
-  User.findByIdAndUpdate(id, body, updateOptions, (error, userDB) => {
+  User.findByIdAndUpdate(id, body, updateOptions, (error, dbUser) => {
     if (error) return res.status(400).json({ success: false, message: error.message });
     if (!userDB) return res.status(400).json({ success: false, message: `User with id ${id} doesn't exist` });
-    res.json({ success: true, message: 'User updated', data: userDB });
+    res.json({ success: true, message: 'User updated', data: dbUser });
   });
 });
 
