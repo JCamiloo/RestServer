@@ -6,7 +6,7 @@ let connection;
 if (process.env.NODE_ENV === 'dev') {
   connection = 'mongodb://localhost:27017/coffeeShop'
 } else {
-  connection = 'mongodb+srv://juan:juan1234@cluster0-6u7vf.mongodb.net/coffeeShop'
+  connection = process.env.MONGO_URI;
 }
 
 process.env.CONNECTION = connection;
