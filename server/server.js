@@ -10,8 +10,8 @@ app.use(bodyParser.json());
 app.use(require('./routes/user'));
 
 mongoose.connect(
-  'mongodb://localhost:27017/coffeeShop', 
-  { useUnifiedTopology: true, useNewUrlParser: true }, 
+  process.env.CONNECTION, 
+  { useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true }, 
   (err, res) => {
     if (err) throw err;
     console.log('DB Online');

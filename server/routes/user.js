@@ -12,7 +12,7 @@ app.get('/user', (req, res) => {
   User.find({ state: true }).skip(from).limit(limit).exec((error, users) => {
     if (error) return res.status(400).json({ success: false, message: error.message });
 
-    User.count({ state: true }, (err, total) => {
+    User.countDocuments({ state: true }, (err, total) => {
       if (err) return res.status(400).json({ success: false, message: err.message });
       res.json({ success: true, data: { total, users } });
     });
