@@ -12,7 +12,11 @@ app.use(require('./routes/index'));
 
 mongoose.connect(
   process.env.CONNECTION, 
-  { useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true }, 
+  { useUnifiedTopology: true, 
+    useNewUrlParser: true, 
+    useCreateIndex: true,
+    useFindAndModify: false
+  }, 
   (err, res) => {
     if (err) throw err;
     console.log('DB Online');
