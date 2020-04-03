@@ -2,10 +2,11 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const _ = require('underscore');
 const User = require('../models/user.model');
+const { verifyToken } = require('../middlewares/authentication');
 const app = express();
 const updateOptions = { new: true, runValidators: true, context: 'query' };
 
-app.get('/user', (req, res) => {
+app.get('/user', verifyToken, (req, res) => {
   const from = Number(req.query.from || 0);
   const limit = Number(req.query.limit || 5);
 
