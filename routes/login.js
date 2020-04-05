@@ -13,7 +13,7 @@ app.post('/login', (req, res) => {
     if (!bcrypt.compareSync(body.password, dbUser.password)) return res.status(400).json({ success: false, message: 'User/password invalid' });
     
     const token = jwt.sign({ user: dbUser }, process.env.TOKEN_SEED, { expiresIn: process.env.TOKEN_CADUCITY });    
-    res.json({ succes: true, data: dbUser, token });
+    res.json({ success: true, data: dbUser, token });
   });
 });
 
