@@ -57,7 +57,7 @@ async function verify(token) {
   const ticket = await client.verifyIdToken({
     idToken: token,
     audience: process.env.GOOGLE_CLIENT_ID
-  });
+  }).catch(error => console.log(error));
   const payload = ticket.getPayload();
   return {
     name: payload.name,

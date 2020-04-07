@@ -2,7 +2,7 @@ process.env.PORT = process.env.PORT || 3000;
 process.env.NODE_ENV = process.env.NODE_ENV || 'dev';
 process.env.TOKEN_CADUCITY = 60 * 60 * 24 * 30;
 process.env.TOKEN_SEED = process.env.TOKEN_SEED || 'development-seed';
-process.env.GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || '1026312298849-o43erq05v71sikoquc3gnb4bp7bd5nhg.apps.googleusercontent.com'; 
+process.env.GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || '1026312298849-h4gr8qt00eco43rb3oh84l0tr9qmb43r.apps.googleusercontent.com'; 
 
 let connection;
 
