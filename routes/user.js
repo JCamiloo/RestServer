@@ -56,7 +56,7 @@ app.delete('/user/:id', [verifyToken, verifyRole], (req, res) => {
   User.findByIdAndUpdate(id, updateField, updateOptions, (error, userDeleted) => {
     if (error) return res.status(400).json({ success: false, message: error.message });
     if (!userDeleted.state) return res.status(400).json({ success: false, message: `User with id ${id} doesn't exist` });
-    res.json({ success: true, message: 'User deleted', data: userDeleted });
+    res.json({ success: true, message: 'User deleted'});
   });
 });
 
