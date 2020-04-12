@@ -34,6 +34,17 @@ app.get('/product/:id', verifyToken, (req, res) => {
   })
 });
 
+app.get('/product/search/:term', verifyToken, (req, res) => {
+  const term = req.params.term;
+  const regex = new RegExp(term, 'i'); 
+
+  Product.find( { name: regex } ).populate('user', 'name email').populate('category', 'description')
+  .exec((error, dbProduct) => {
+    if (error) return res.status(500).json({ success: false, message: error.message });
+    res.json({ success: true, data: dbProduct})
+  })
+});
+
 app.post('/product', verifyToken, (req, res) => {
   const body = req.body;
   const product = new Product({
@@ -76,7 +87,7 @@ app.delete('/product/:id', verifyToken, (req, res) => {
   Product.findByIdAndUpdate(id, body, updateOptions, (error, dbProduct) => {
     if (error) return res.status(500).json({ success: false, message: error.message });
     if (!dbProduct) return res.status(400).json({ success: false, message: `Product doesn't exist` });
-    res.json({ success: true, message: 'Product updated' });
+    res.json({ success: true, message: 'Product deleted' });
   });
 });
 
