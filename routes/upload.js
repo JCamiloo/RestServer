@@ -1,9 +1,10 @@
 const express = require('express');
 const fileUpload = require('express-fileupload');
+const fs = require('fs');
+const path = require('path');
 const User = require('../models/user.model');
 
 const app = express();
-const updateOptions = { new: true, runValidators: true, context: 'query' };
 
 app.use(fileUpload({ useTempFiles: true }));
 
@@ -31,12 +32,27 @@ app.put('/upload/:type/:id', (req, res) => {
 });
 
 function userImage(id, res, fileName) {
-  const body = { image: fileName };
-  User.findByIdAndUpdate(id, body, updateOptions, (error, dbUser) => {
-    if (error) res.status(500).json({ success: false, message: error.message });
-    if (!dbUser) res.status(400).json({ success: false, message: `User doesn't exist` });
-    res.json({ success: true, message: 'Image uploaded' });
+  User.findById(id, (error, dbUser) => {
+    if (error) { 
+      deleteFile(fileName, 'user');
+      return res.status(500).json({ success: false, message: error.message });
+    }
+    if (!dbUser) {
+      deleteFile(fileName, 'user');
+      return res.status(400).json({ success: false, message: `User doesn't exist` });
+    }
+    deleteFile(dbUser.image, 'user');
+    dbUser.image = fileName;
+    dbUser.save((err, userUpdated) => {
+      if (err) return res.status(500).json({ success: false, message: error.message });
+      res.json({ success: true, message: 'User updated', data: userUpdated });
+    });
   });
+}
+
+function deleteFile(fileName, type) {
+  const imagePath = path.resolve(__dirname, `../uploads/${type}/${fileName}`);
+  if (fs.existsSync(imagePath)) fs.unlinkSync(imagePath);
 }
 
 module.exports = app;
