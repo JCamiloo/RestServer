@@ -24,7 +24,7 @@ app.get('/category', verifyToken, (req, res) => {
 app.get('/category/:id', verifyToken, (req, res) => {
   const id = req.params.id;
   if (!id) return res.status(500).json({ success: false, message: 'Missing category id'});
-  Category.findById(id, (error, dbCategory) => {
+  Category.findById(id).populate('user', 'name email').exec((error, dbCategory) => {
     if (error) return res.status(500).json({ success: false, message: error.message });
     if (!dbCategory) return res.status(400).json({ success: false, message: `Category doesn't exist`})
     res.json({ success: true, data: dbCategory });
@@ -41,7 +41,7 @@ app.post('/category', [verifyToken, verifyRole], (req, res) => {
   category.save((error, dbCategory) => {
     if (error) return res.status(500).json({ success: false, message: error.message });
     if (!dbCategory) return res.status(400).json({ success: false, message: error.message });
-    res.json({ success: true, message: 'Category created', data: dbCategory });
+    res.status(201).json({ success: true, message: 'Category created', data: dbCategory });
   });
 });
 
