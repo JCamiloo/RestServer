@@ -11,7 +11,8 @@ app.get('/category', verifyToken, (req, res) => {
   const from = Number(req.query.from || 0);
   const limit = Number(req.query.limit || 5);
 
-  Category.find({ state: true }).skip(from).limit(limit).exec((error, categories) => {
+  Category.find({ state: true }).sort('description').populate('user', 'name email')
+  .skip(from).limit(limit).exec((error, categories) => {
     if (error) return res.status(400).json({ success: false, message: error.message });
     Category.countDocuments({ state: true }, (err, total) => {
       if (err) return res.status(400).json({ success: false, message: err.message });
