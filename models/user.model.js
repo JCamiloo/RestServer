@@ -14,7 +14,7 @@ const userSchema = new Schema({
   image: { type: String, required: false },
   role: { type: String, default: 'USER_ROLE', enum: roles },
   state: { type: Boolean, default: true },
-  google: { type: Boolean, default: false },  
+  google: { type: Boolean, default: false }
 });
 
 userSchema.methods.toJSON = function() {
