@@ -7,5 +7,6 @@ app.use(require('./category'));
 app.use(require('./product'));
 app.use(require('./upload'));
 app.use(require('./image'));
+app.use(require('./analytics'));
 
 module.exports = app;
